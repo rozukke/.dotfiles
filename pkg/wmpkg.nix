@@ -11,5 +11,6 @@
     wl-clipboard # Clipboard support
     hyprpaper # Wallpaper
     discord
+    vscodium
   ]);
 }

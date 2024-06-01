@@ -18,7 +18,7 @@ The folders are as follows:
 The easiest way to add a package is via the appropriate `.nix` file in the `pkg` folder.
 
 ## Installing
-Clone this repository, and create a file called `SECRETS.json` (a template is included in the repo). Fill this file and `flake.nix` with your own info.
+Clone this repo and fill `flake.nix` with your own info.
 You may need to match your username to what you created during NixOS installation.
 
 **IMPORTANT**

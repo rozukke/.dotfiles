@@ -19,9 +19,6 @@
   outputs = inputs@{ self, ... }:
     # Set env for the rest of the build
     let
-      # Read secrets from provided file - userful for git hosting
-      secrets = builtins.fromJSON (builtins.readFile ./SECRETS.json);
-
       # Config used for basic system setup
       sysconfig = {
         system = "x86_64-linux";
@@ -34,13 +31,18 @@
       userconfig = {
         dots = builtins.toString /home/artemis/.dotfiles/dots;
         username = "artemis";
-        name = secrets.name;
-        email = secrets.email;
+        name = "Artemis Rosman";
+        email = "73006620+rozukke@users.noreply.github.com";
         term = "foot";
         browser  = "firefox";
         font = "JetBrains Mono";
         editor = "nvim";
         spawnEditor = "nvim";
+
+        # Comment out if not using T480s
+        fprint = /home/artemis/calib-data.bin;
+
+
       };
 
 
