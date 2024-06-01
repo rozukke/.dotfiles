@@ -1,0 +1,74 @@
+{
+  "modules-left": [
+    "wireplumber",
+    "backlight",
+    "hyprland/window",
+  ],
+  "modules-center": [
+    "hyprland/workspaces",
+  ],
+  "modules-right": [
+    "network",
+    "temperature",
+    "battery",
+    "clock",
+  ],
+
+  "clock": {
+    "interval": 60,
+    "format": "{:%H:%M %d-%m-%Y}",
+  },
+
+  "temperature": {
+    "critical-threshold": 80,
+    "thermal-zone": 2,
+  },
+
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-icons": [
+      "\uebdc",
+      "󰁻",
+      "󰁽",
+      "󰁿",
+      "󰂁",
+      "󰁹",
+    ],
+    "tooltip": true,
+    "tooltip-format": "{time}",
+  },
+
+  "backlight": {
+    "format": " {percent}%",
+  },
+
+  "wireplumber": {
+    "format": "󰕾 {volume}",
+    "muted-format": "󰕿",
+  },
+
+  "network": {
+    "format-wifi": "{icon} {essid}",
+    "format-icons": [
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨",
+    ],
+    "format-disconnected": "󰤮",
+  },
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "active": "",
+      "default": "",
+    },
+
+    "sort-by": "number",
+    "persistent-workspaces": { 
+      "*": 4, 
+    },
+  },
+
+}

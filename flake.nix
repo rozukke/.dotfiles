@@ -1,0 +1,92 @@
+{
+  description = "rozukke's NixOS flake";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Specific model support
+    nixos-hardware.url = "github:nixos/nixos-hardware/master";
+    # Very hacky fingerprint support
+    nixos-06cb-009a-fingerprint-sensor = {
+      url = "github:ahbnr/nixos-06cb-009a-fingerprint-sensor";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = inputs@{ self, ... }:
+    # Set env for the rest of the build
+    let
+      # Read secrets from provided file - userful for git hosting
+      secrets = builtins.fromJSON (builtins.readFile ./SECRETS.json);
+
+      # Config used for basic system setup
+      sysconfig = {
+        system = "x86_64-linux";
+        hostname = "nixos";
+        timezone = "Australia/Melbourne";
+        locale = "en_AU.UTF-8";
+      };
+
+      # User settings for account & preferences
+      userconfig = {
+        dots = builtins.toString /home/artemis/.dotfiles/dots;
+        username = "artemis";
+        name = secrets.name;
+        email = secrets.email;
+        term = "foot";
+        browser  = "firefox";
+        font = "JetBrains Mono";
+        editor = "nvim";
+        spawnEditor = "nvim";
+      };
+
+
+      # Package repo setup 
+      pkgs = import inputs.nixpkgs {
+        system = sysconfig.system;
+        config.allowUnfree = true;
+      };
+
+    in {
+
+      # Instruction to build system contained in lib
+      nixosConfigurations = {
+        "nixos" = inputs.nixpkgs.lib.nixosSystem {
+          system = sysconfig.system;
+          modules = [ 
+	    ./configuration.nix
+	    # Hardware config
+	    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
+
+	    # # Used to enrol fingerprints
+	    # inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules.open-fprintd
+	    # inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules.python-validity
+	  ];
+          specialArgs = {
+            inherit pkgs;
+            inherit sysconfig;
+            inherit userconfig;
+            inherit inputs;
+          };
+        };
+      };
+
+      # Instruction to build dotfiles and preferences
+      homeConfigurations = {
+        "artemis" = inputs.home-manager.lib.homeManagerConfiguration {
+	  inherit pkgs;
+          modules = [ ./home.nix ];
+          extraSpecialArgs = {
+            inherit pkgs;
+            inherit sysconfig;
+            inherit userconfig;
+            inherit inputs;
+          };
+        };
+      };
+
+    };
+}

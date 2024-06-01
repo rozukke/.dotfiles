@@ -1,0 +1,58 @@
+/* General */
+
+* {
+  font-size: 10px;
+  font-family: "JetBrains Mono", "Material Icons", "FontAwesome";
+  padding: 0;
+  margin: 0;
+  min-height: 0; /* This unbreaks height */
+}
+
+window#waybar {
+  background: rgba(40, 42, 54, 0.6);
+  color: #f8f8f8;
+}
+
+
+#wireplumber,
+#backlight,
+#window,
+#workspaces,
+#network,
+#temperature,
+#battery,
+#clock {
+  padding: 2px 6px;
+  margin: 5px 3px;
+  background-color: rgba(40, 42, 54, 0.8);
+  border-radius: 15px;
+  border: 2px solid rgba(250, 249, 246, 0.8);
+}
+
+#window {
+  background-color: transparent;
+  border: 0px;
+}
+
+#workspaces button {
+  margin-top: 1px;
+  background: transparent;
+  color: rgb(250, 249, 246);
+}
+
+#workspaces button.focused {
+ border: 0px;
+ font-size: 12px;
+}
+
+#network.wifi {
+  border-color: #70ffcf;
+}
+
+#network.disconnected {
+  border-color: #ff4444;
+}
+
+#battery.charging {
+  border-color: #70ffcf;
+}
