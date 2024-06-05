@@ -9,11 +9,17 @@
     ripgrep
     btop
     bat
+    feh
+    fish
     brightnessctl # Screen brightness
     pw-volume # Volume control
     killall
     cargo
     rustc
+    lazygit
+    zoxide
+    fzf
+    starship
   ]);
 
 }

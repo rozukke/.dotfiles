@@ -16,13 +16,12 @@
     # App configs
     ./home/git.nix
     ./home/foot.nix
-    ./home/fish.nix
   ];
 
   home.sessionVariables = {
     EDITOR = userconfig.editor;
     SPAWNEDITOR = userconfig.spawnEditor;
-    TERMINAL = userconfig.term;
+    TERM = userconfig.term;
     BROWSER = userconfig.browser;
   };
 
@@ -35,7 +34,27 @@
   };
 
   # I believe this is required for IPC
-  xdg.enable = true;
+  xdg = {
+    enable = true;
+    mime.enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "x-scheme-handler/http" = ["firefox.desktop"];
+        "x-scheme-handler/https" = "firefox.desktop";
+      };
+    };
+  };
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config.common.default = "hyprland";
+  };
+
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
@@ -49,23 +68,19 @@
     publicShare = null;
   };
 
-  # Deafult apps
-  xdg.mime.enable = true;
-  xdg.mimeApps.enable = true;
-
   # IMPORTANT - Raw symlinks are created from the ./dots directory into ~/.config so that hot-reloading is not a chore.
-  xdg.configFile.nvim = {
-    source = config.lib.file.mkOutOfStoreSymlink "${userconfig.dots}/nvim";
-    recursive = true;
-  };
-  xdg.configFile.hypr = {
-    source = config.lib.file.mkOutOfStoreSymlink "${userconfig.dots}/hypr";
-    recursive = true;
-  };
-  xdg.configFile.waybar = {
-    source = config.lib.file.mkOutOfStoreSymlink "${userconfig.dots}/waybar";
-    recursive = true;
-  };
+#  xdg.configFile.nvim = {
+#    source = config.lib.file.mkOutOfStoreSymlink "${userconfig.dots}/nvim";
+#    recursive = true;
+#  };
+#  xdg.configFile.hypr = {
+#    source = config.lib.file.mkOutOfStoreSymlink "${userconfig.dots}/hypr";
+#    recursive = true;
+#  };
+#  xdg.configFile.waybar = {
+#    source = config.lib.file.mkOutOfStoreSymlink "${userconfig.dots}/waybar";
+#    recursive = true;
+#  };
 
 
   news.display = "silent";

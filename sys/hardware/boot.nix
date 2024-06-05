@@ -1,13 +1,16 @@
-{ config, ... }:
+{ pkgs, ... }:
 
 {
   # Boot options for silent boot
   boot = {
     loader = {
+      systemd-boot.enable = true;
       systemd-boot.editor = false;
+      efi.canTouchEfiVariables = true;
+      timeout = 2;
     };
 
-    consoleLogLevel = 0;
+    consoleLogLevel = 3;
     kernelParams = [
       "quiet"
       "splash"
@@ -16,7 +19,18 @@
       "rd.udev.log_level=3"
       "udev.log_priority=3"
     ];
-    initrd.verbose = false;
-    plymouth.enable = true;
+
+    initrd = {
+      enable = true;
+      systemd.enable = true;
+      verbose = false;
+    };
+
+    plymouth = {
+      enable = true;
+      font = "${pkgs.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
+      themePackages = [ pkgs.catppuccin-plymouth ];
+      theme = "catppuccin-macchiato";
+    };
   };
 }

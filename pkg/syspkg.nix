@@ -7,8 +7,10 @@
      curl wget
      zip unzip
      git
+     fd
      gcc
      gnumake
      home-manager
+     direnv
     ];
 }

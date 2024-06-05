@@ -10,7 +10,8 @@
       # Discreet hardware config
       ./sys/hardware/gpu.nix
       ./sys/hardware/fprint.nix
-      
+      ./sys/network.nix
+
       # List of system necessary packages
       ./pkg/syspkg.nix
       
@@ -19,6 +20,8 @@
       ./sys/hardware/power.nix
       ./sys/hardware/time.nix
       ./sys/hardware/bluetooth.nix
+      ./sys/greetd.nix
+      ./sys/gc.nix
       ./sys/console.nix
 
       # Basic wm settings
@@ -33,15 +36,7 @@
 
     nixpkgs.config.allowUnfree = true;
 
-    # TODO: Move to boot.nix
-    # UEFI boot
-    boot.loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-
     networking.hostName = sysconfig.hostname;
-    networking.networkmanager.enable = true;
 
     time.timeZone = sysconfig.timezone;
     i18n.defaultLocale = sysconfig.locale;

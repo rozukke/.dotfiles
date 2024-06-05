@@ -9,7 +9,6 @@
       terminus_font
     ];
     font = "ter-v32n";
-    keyMap = "us";
   };
 
 }

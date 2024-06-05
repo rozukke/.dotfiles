@@ -1,0 +1,28 @@
+[global]
+frame_color = "#faf9f6"
+separator_color = frame
+font = "JetBrains Mono Regular 8"
+corner_radius = 5
+icon_corner_radius = 5
+offset = 5x5
+origin = top-right
+notification_limit = 8
+gap_size = 7
+frame_width = 2
+width = 300
+height = 70
+format = "<i>%a</i>\n<b>%s</b>\n%b"
+mouse_left_click = do_action, close_current
+
+[urgency_low]
+background = "#282a36"
+foreground = "#faf9f6"
+
+[urgency_normal]
+background = "#282a36"
+foreground = "#CAD3F5"
+
+[urgency_critical]
+background = "#282a36"
+foreground = "#CAD3F5"
+frame_color = "#F5A97F"

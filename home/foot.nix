@@ -14,6 +14,9 @@
       colors = {
         alpha = 0.8;
       };
+      scrollback = {
+        indicator-position = "fixed";
+      };
     };
   };
 }

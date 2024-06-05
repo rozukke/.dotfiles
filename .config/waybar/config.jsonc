@@ -17,6 +17,8 @@
   "clock": {
     "interval": 60,
     "format": "{:%H:%M %d-%m-%Y}",
+    "tooltip": true,
+    "tooltip-format": "{:%A}",
   },
 
   "temperature": {
@@ -34,8 +36,9 @@
       "󰂁",
       "󰁹",
     ],
+    "format-charging": "󰂄 {capacity}%",
     "tooltip": true,
-    "tooltip-format": "{time}",
+    "tooltip-format": "Remaining: {time}",
   },
 
   "backlight": {
