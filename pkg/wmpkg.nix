@@ -19,6 +19,7 @@
     hyprcursor
     hypridle
     hyprlock
+    hyprcursor
     discord
     vscodium
   ]);

@@ -4,7 +4,7 @@
 {
   # Should import all non user-level flakes
   imports = 
-    [ 
+    [
       ./sys/hardware-configuration.nix
 
       # Discreet hardware config
@@ -14,7 +14,7 @@
 
       # List of system necessary packages
       ./pkg/syspkg.nix
-      
+
       # System configuration
       ./sys/hardware/boot.nix
       ./sys/hardware/power.nix
@@ -33,6 +33,7 @@
     # Enable flakes
     nix.package = pkgs.nixFlakes;
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.auto-optimise-store = true;
 
     nixpkgs.config.allowUnfree = true;
 

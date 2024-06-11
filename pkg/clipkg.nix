@@ -4,7 +4,7 @@
 # home-manager - some are enabled in other .nix files.
 {
   home.packages = (with pkgs; [
-    neovim
+    neovim-unwrapped
     fastfetch
     ripgrep
     btop

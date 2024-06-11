@@ -12,6 +12,7 @@
     # Package imports
     ./pkg/wmpkg.nix
     ./pkg/clipkg.nix
+    ./pkg/devpkg.nix
 
     # App configs
     ./home/git.nix
@@ -67,21 +68,6 @@
     desktop = null;
     publicShare = null;
   };
-
-  # IMPORTANT - Raw symlinks are created from the ./dots directory into ~/.config so that hot-reloading is not a chore.
-#  xdg.configFile.nvim = {
-#    source = config.lib.file.mkOutOfStoreSymlink "${userconfig.dots}/nvim";
-#    recursive = true;
-#  };
-#  xdg.configFile.hypr = {
-#    source = config.lib.file.mkOutOfStoreSymlink "${userconfig.dots}/hypr";
-#    recursive = true;
-#  };
-#  xdg.configFile.waybar = {
-#    source = config.lib.file.mkOutOfStoreSymlink "${userconfig.dots}/waybar";
-#    recursive = true;
-#  };
-
 
   news.display = "silent";
 
