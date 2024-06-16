@@ -14,6 +14,7 @@
       url = "github:ahbnr/nixos-06cb-009a-fingerprint-sensor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
   };
 
   outputs = inputs@{ self, ... }:

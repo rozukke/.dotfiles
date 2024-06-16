@@ -17,6 +17,9 @@
     # App configs
     ./home/git.nix
     ./home/foot.nix
+
+    # Shell config
+    ./shell/direnv.nix
   ];
 
   home.sessionVariables = {

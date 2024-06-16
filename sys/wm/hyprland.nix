@@ -1,5 +1,3 @@
-{ ... }:
-
 # Enables Hyprland and related services. Specific options are handled via symlink.
 {
 

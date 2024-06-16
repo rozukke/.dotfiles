@@ -11,6 +11,5 @@
      gcc
      gnumake
      home-manager
-     direnv
     ];
 }
