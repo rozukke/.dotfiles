@@ -5,5 +5,7 @@
     cmake
     jdk17
     clang-tools
+    rust-analyzer
+    lua-language-server
   ]);
 }

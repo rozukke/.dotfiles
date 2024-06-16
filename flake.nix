@@ -29,8 +29,7 @@
       };
 
       # User settings for account & preferences
-      userconfig = {
-        dots = builtins.toString /home/artemis/.dotfiles/dots;
+      userconfig = rec {
         username = "artemis";
         name = "Artemis Rosman";
         email = "73006620+rozukke@users.noreply.github.com";
@@ -39,9 +38,10 @@
         font = "JetBrains Mono";
         editor = "nvim";
         spawnEditor = "nvim";
+        home = /home/${username};
 
         # Comment out if not using T480s
-        fprint = /home/artemis/calib-data.bin;
+        fprint = home + /calib-data.bin;
 
 
       };
@@ -57,7 +57,7 @@
 
       # Instruction to build system contained in lib
       nixosConfigurations = {
-        "nixos" = inputs.nixpkgs.lib.nixosSystem {
+        ${sysconfig.hostname} = inputs.nixpkgs.lib.nixosSystem {
           system = sysconfig.system;
           modules = [ 
 	    ./configuration.nix
@@ -79,8 +79,8 @@
 
       # Instruction to build dotfiles and preferences
       homeConfigurations = {
-        "artemis" = inputs.home-manager.lib.homeManagerConfiguration {
-	  inherit pkgs;
+        ${userconfig.username} = inputs.home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
             inherit pkgs;

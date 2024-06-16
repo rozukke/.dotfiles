@@ -1,37 +1,15 @@
 --[[
-
-    If you don't know anything about Lua, I recommend taking some time to read through
-    a guide. One possible example which will only take 10-15 minutes:
       - https://learnxinyminutes.com/docs/lua/
 
-    After understanding a bit more about Lua, you can use `:help lua-guide` as a
-    reference for how Neovim integrates Lua.
+    Reference for how Neovim integrates Lua.
     - :help lua-guide
     - (or HTML version): https://neovim.io/doc/user/lua-guide.html
 
-  TODO: The very first thing you should do is to run the command `:Tutor` in Neovim.
+    :Tutor & :help
 
-  Next, run AND READ `:help`.
-    This will open up a help window with some basic information
-    about reading, navigating and searching the builtin help documentation.
+    "<space>sh" to [s]earch the [h]elp documentation
 
-    This should be the first place you go to look when you're stuck or confused
-    with something. It's one of my favorite Neovim features.
-
-    MOST IMPORTANTLY, we provide a keymap "<space>sh" to [s]earch the [h]elp documentation,
-    which is very useful when you're not exactly sure of what you're looking for.
-
-  I have left several `:help X` comments throughout the init.lua
-    These are hints about where to find more information about the relevant settings,
-    plugins or Neovim features used in Kickstart.
-
-   NOTE: Look for lines like this
-
-    Throughout the file. These are for you, the reader, to help you understand what is happening.
-    Feel free to delete them once you know what you're doing, but they should serve as a guide
-    for when you are first encountering a few different constructs in your Neovim config.
-
-If you experience any errors while trying to install kickstart, run `:checkhealth` for more info.
+    If you experience any errors while trying to install kickstart, run `:checkhealth` for more info.
 --]]
 
 -- Set <space> as the leader key
@@ -54,7 +32,7 @@ vim.g.loaded_netrwPlugin = 1
 -- Make line numbers default
 vim.opt.number = true
 
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 vim.opt.expandtab = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
@@ -84,9 +62,9 @@ vim.opt.signcolumn = 'yes'
 -- Decrease update time
 vim.opt.updatetime = 250
 
--- Decrease mapped sequence wait time
--- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
+-- Mapped sequence wait time
+-- Prevents which-key popup from going too soon
+vim.opt.timeoutlen = 1000
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -128,26 +106,28 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- TIP: Disable arrow keys in normal mode
-vim.keymap.set('n', '<left>', '<cmd>echo "Arrow keys are blocked."<CR>')
-vim.keymap.set('n', '<right>', '<cmd>echo "Arrow keys are blocked."<CR>')
-vim.keymap.set('n', '<up>', '<cmd>echo "Arrow keys are blocked."<CR>')
-vim.keymap.set('n', '<down>', '<cmd>echo "Arrow keys are blocked."<CR>')
+-- TIP: Disable arrow keys in normal and insert mode
+vim.keymap.set({ 'n', 'i' }, '<left>', '<cmd>echo "Arrow keys are blocked."<CR>')
+vim.keymap.set({ 'n', 'i' }, '<right>', '<cmd>echo "Arrow keys are blocked."<CR>')
+vim.keymap.set({ 'n', 'i' }, '<up>', '<cmd>echo "Arrow keys are blocked."<CR>')
+vim.keymap.set({ 'n', 'i' }, '<down>', '<cmd>echo "Arrow keys are blocked."<CR>')
 
--- Remap to IJKL
-vim.keymap.set('n', 'i', 'k')
-vim.keymap.set('n', 'j', 'h')
-vim.keymap.set('n', 'k', 'j')
-vim.keymap.set('n', 'h', 'i')
+-- Make paste work more normally when pasting over selection
+vim.keymap.set('v', 'p', 'P', { desc = 'Pasting over selection will not touch clipboard' })
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
--- TODO  Change this so that it's less bad
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- Make navigation in insert mode easier
+vim.keymap.set('i', '<A-h>', '<left>', { desc = 'Move in insert mode left' })
+vim.keymap.set('i', '<A-l>', '<right>', { desc = 'Move in insert mode right' })
+vim.keymap.set('i', '<A-j>', '<down>', { desc = 'Move in insert mode down' })
+vim.keymap.set('i', '<A-k>', '<up>', { desc = 'Move in insert mode up' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -161,6 +141,21 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank()
   end,
+})
+
+-- Auto close nvim-tree when last window
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = vim.api.nvim_create_augroup("NvimTreeClose", { clear = true }),
+  pattern = "NvimTree_*",
+  callback = function()
+    local layout = vim.api.nvim_call_function("winlayout", {})
+    if layout[1] == "leaf"
+        and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree"
+        and layout[3] == nil
+    then
+      vim.cmd("confirm quit")
+    end
+  end
 })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
@@ -197,14 +192,22 @@ require('lazy').setup({
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',    opts = {} },
 
-  { 'nvim-tree/nvim-tree.lua', 
+  -- pop-up terminal toggle
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    opts = { open_mapping = [[<C-`>]], },
+  },
+
+  {
+    'nvim-tree/nvim-tree.lua',
     event = "VimEnter",
     dependencies = {
       'nvim-tree/nvim-web-devicons',
-    }, 
-    opts = {}, 
+    },
+    opts = {},
   },
 
   -- Here is a more advanced example where we pass configuration
@@ -240,7 +243,7 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  { -- Useful plugin to show you pending keybinds.
+  {                     -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
@@ -292,7 +295,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -509,7 +512,7 @@ require('lazy').setup({
         clangd = {},
         -- gopls = {},
         -- pyright = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -543,9 +546,9 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
       })
 
-        -- This handles overriding only values explicitly passed
-        -- by the server configuration above. Useful when disabling
-        -- certain features of an LSP (for example, turning off formatting for tsserver)
+      -- This handles overriding only values explicitly passed
+      -- by the server configuration above. Useful when disabling
+      -- certain features of an LSP (for example, turning off formatting for tsserver)
       for server_name, server in pairs(servers) do
         server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
         require('lspconfig')[server_name].setup(server)
@@ -657,11 +660,11 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          -- ['<Tab>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
-          --['<CR>'] = cmp.mapping.confirm { select = true },
+          ['<CR>'] = cmp.mapping.confirm { select = true },
           --['<Tab>'] = cmp.mapping.select_next_item(),
           --['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
@@ -835,6 +838,7 @@ require('lazy').setup({
     },
   },
 })
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
