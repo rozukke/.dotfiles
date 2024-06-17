@@ -3,14 +3,14 @@
 
 {
   # Should import all non user-level flakes
-  imports = 
-    [
+  imports = [
       ./sys/hardware-configuration.nix
 
       # Discreet hardware config
       ./sys/hardware/gpu.nix
       ./sys/hardware/fprint.nix
       ./sys/network.nix
+      ./sys/kb.nix
 
       # List of system necessary packages
       ./pkg/syspkg.nix
@@ -28,40 +28,39 @@
       ./sys/wm/hyprland.nix
       ./sys/wm/fonts.nix
       ./sys/wm/pipewire.nix
-    ];
+  ];
 
-    # Enable flakes
-    nix.package = pkgs.nixFlakes;
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
-    nix.settings.auto-optimise-store = true;
+  # Enable flakes
+  nix.package = pkgs.nixFlakes;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.auto-optimise-store = true;
 
-    nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree = true;
 
-    networking.hostName = sysconfig.hostname;
+  networking.hostName = sysconfig.hostname;
 
-    time.timeZone = sysconfig.timezone;
-    i18n.defaultLocale = sysconfig.locale;
-    i18n.extraLocaleSettings = {
-      LC_ADDRESS = sysconfig.locale;
-      LC_IDENTIFICATION = sysconfig.locale;
-      LC_MEASUREMENT = sysconfig.locale;
-      LC_MONETARY = sysconfig.locale;
-      LC_NAME = sysconfig.locale;
-      LC_NUMERIC = sysconfig.locale;
-      LC_PAPER = sysconfig.locale;
-      LC_TELEPHONE = sysconfig.locale;
-      LC_TIME = sysconfig.locale;
-    };
+  time.timeZone = sysconfig.timezone;
+  i18n.defaultLocale = sysconfig.locale;
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = sysconfig.locale;
+    LC_IDENTIFICATION = sysconfig.locale;
+    LC_MEASUREMENT = sysconfig.locale;
+    LC_MONETARY = sysconfig.locale;
+    LC_NAME = sysconfig.locale;
+    LC_NUMERIC = sysconfig.locale;
+    LC_PAPER = sysconfig.locale;
+    LC_TELEPHONE = sysconfig.locale;
+    LC_TIME = sysconfig.locale;
+  };
 
-    # Configure default user
-    users.users.${userconfig.username} = {
-      isNormalUser = true;
-      description = userconfig.name;
-      extraGroups = [ "networkmanager" "wheel" "input" ];
-      packages = [];
-    };
+  # Configure default user
+  users.users.${userconfig.username} = {
+    isNormalUser = true;
+    description = userconfig.name;
+    extraGroups = [ "networkmanager" "wheel" "input" "uinput" ];
+    packages = [];
+  };
 
-    # Don't touch - first release used for compatibility
-    system.stateVersion = "23.11";
-    
+  # Don't touch - first release used for compatibility
+  system.stateVersion = "23.11";
 }
