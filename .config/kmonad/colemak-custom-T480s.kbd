@@ -43,16 +43,18 @@ _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    
 
 (defalias
   sym (layer-toggle symbol)
+  ;; Mod tap space, symbol layer
+  mts (tap-hold 150 spc @sym)
 )
 
 (deflayer colemak-dh
-  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+  lalt f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    f    p    b    j    l    u    y    ;    [    ]    \
-  caps a    r    s    t    g    m    n    e    i    o    '         ret
+  bspc a    r    s    t    g    m    n    e    i    o    '         ret
   lsft x    c    d    v    z    k    h    ,    .    /              rsft
-  lctl wkup lmet @sym           spc            ralt sys  rctl pgdn up   pgup
-                                                              left down rght
+  lctl wkup lmet @sym           @mts           ralt sys  rctl pgdn lalt pgup
+                                                              lalt lalt lalt
  )
 
 (deflayer symbol

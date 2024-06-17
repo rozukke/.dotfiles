@@ -4,19 +4,20 @@
 # home-manager - some are enabled in other .nix files.
 {
   home.packages = (with pkgs; [
-    neovim-unwrapped
+    neovim
+    # Info
     fastfetch
-    ripgrep
     btop
+    # Tools
     bat
     feh
-    fish
     brightnessctl # Screen brightness
     pw-volume # Volume control
     killall
-    cargo
-    rustc
+    ripgrep
     lazygit
+    # Shell
+    fish
     zoxide
     fzf
     starship

@@ -15,6 +15,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Keyboard layout config
+    kmonad = {
+      url = "git+https://github.com/kmonad/kmonad?submodules=1&dir=nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, ... }:
@@ -43,9 +48,10 @@
         # Comment out if not using T480s
         fprint = home + /calib-data.bin;
 
+        # Comment out if not using kb remap
+        kbLayout = home + /.dotfiles/.config/kmonad/colemak-custom-T480s.kbd;
 
       };
-
 
       # Package repo setup 
       pkgs = import inputs.nixpkgs {
@@ -60,14 +66,17 @@
         ${sysconfig.hostname} = inputs.nixpkgs.lib.nixosSystem {
           system = sysconfig.system;
           modules = [ 
-	    ./configuration.nix
-	    # Hardware config
-	    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
+            ./configuration.nix
+            # Hardware config
+            inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
 
-	    # # Used to enrol fingerprints
-	    # inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules.open-fprintd
-	    # inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules.python-validity
-	  ];
+            # Keyboard layout
+            inputs.kmonad.nixosModules.default
+
+            # # Used to enrol fingerprints
+            # inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules.open-fprintd
+            # inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules.python-validity
+          ];
           specialArgs = {
             inherit pkgs;
             inherit sysconfig;

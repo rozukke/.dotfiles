@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  # Enable Display Manager
+  # Login screen
   services.greetd = {
     enable = true;
     settings = {

@@ -6,6 +6,10 @@
     userName = userconfig.name;
     userEmail = userconfig.email;
     extraConfig.init.defaultBranch = "main";
+    aliases = {
+      co = "checkout";
+      cmt = "commit";
+    };
     extraConfig = {
       url = {
         "git@github.com:" = {

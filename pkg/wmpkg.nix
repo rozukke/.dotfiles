@@ -6,6 +6,7 @@
   home.packages = (with pkgs; [
     foot # Terminal
     firefox
+    # XDG
     shared-mime-info
     xdg-utils
     xdg-desktop-portal-hyprland
@@ -21,6 +22,6 @@
     hyprlock
     hyprcursor
     discord
-    vscodium
+    keepassxc
   ]);
 }

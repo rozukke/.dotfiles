@@ -1,15 +1,16 @@
 { ... }:
 
 {
-    # This part is actually ok.
-    networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true;
 
-    networking.networkmanager.wifi.backend = "iwd";
-    networking.networkmanager.settings = {
-      device."wifi.scan-rand-mac-address" = "no";
-      connection."wifi.cloned-mac-address" = "permanent";
-    };
+  # Using iwd for 802.1x connections, wpa_supplicant may work
+  networking.networkmanager.wifi.backend = "iwd";
+  # Disable randomised mac addresses
+  networking.networkmanager.settings = {
+    device."wifi.scan-rand-mac-address" = "no";
+    connection."wifi.cloned-mac-address" = "permanent";
+  };
 
-    networking.firewall.enable = true;
+  networking.firewall.enable = true;
 }
 
