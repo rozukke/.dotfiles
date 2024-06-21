@@ -29,7 +29,7 @@ vim.opt.updatetime = 250
 
 -- Mapped sequence wait time
 -- Prevents which-key popup from going too soon
-vim.opt.timeoutlen = 1000
+vim.opt.timeoutlen = 500
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -77,8 +77,14 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- vim.keymap.set({ 'n', 'i' }, '<up>', '<cmd>echo "Arrow keys are blocked."<CR>')
 -- vim.keymap.set({ 'n', 'i' }, '<down>', '<cmd>echo "Arrow keys are blocked."<CR>')
 
+--[[ Convenience and fixes ]]
 -- Make paste work more normally when pasting over selection
 vim.keymap.set('v', 'p', 'P', { desc = 'Pasting over selection will not touch clipboard' })
+vim.keymap.set('v', 'P', 'p', { desc = 'Pasting over selection will not touch clipboard' })
+-- Add convenient way to end line with semicolon when done
+vim.keymap.set('i', '<C-;>', '<Esc>A;<Esc>', { desc = 'Sexy semicolon line ender' })
+vim.keymap.set('n', '<leader><Tab>', ':b#<CR>', { desc = 'Switch to last buffer' })
+-- TODO keybind to delete line or whatever to null register
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -166,7 +172,7 @@ require('lazy').setup({
   {
     'akinsho/toggleterm.nvim',
     version = "*",
-    opts = { open_mapping = [[<C-`>]], },
+    opts = { open_mapping = [[<C-t>]], },
   },
 
   {
