@@ -7,17 +7,13 @@
       systemd-boot.enable = true;
       systemd-boot.editor = false;
       efi.canTouchEfiVariables = true;
-      timeout = 2;
     };
 
     consoleLogLevel = 3;
     kernelParams = [
       "quiet"
-      "splash"
-      "vga=current"
-      "rd.systemd.show_status=false"
+      "systemd.show_status=auto"
       "rd.udev.log_level=3"
-      "udev.log_priority=3"
     ];
 
     initrd = {
@@ -28,9 +24,6 @@
 
     plymouth = {
       enable = true;
-      font = "${pkgs.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
-      themePackages = [ pkgs.catppuccin-plymouth ];
-      theme = "catppuccin-macchiato";
     };
   };
 }
