@@ -23,5 +23,7 @@
     hyprcursor
     discord
     keepassxc
+    zathura
+    prismlauncher
   ]);
 }

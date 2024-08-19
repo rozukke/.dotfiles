@@ -11,5 +11,7 @@
      gcc
      gnumake
      home-manager
+     linuxPackages_latest.perf
+     linux-wifi-hotspot
     ];
 }

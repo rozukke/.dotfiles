@@ -40,6 +40,8 @@ vim.opt.splitbelow = true
 --  and `:help 'listchars'`
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 0
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
@@ -90,9 +92,9 @@ vim.keymap.set('n', '<leader><Tab>', ':b#<CR>', { desc = 'Switch to last buffer'
 --  Use CTRL+<hjkl> to switch between windows
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-left>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<C-right>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-down>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-up>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Make navigation in insert mode easier
 vim.keymap.set('i', '<A-h>', '<left>', { desc = 'Move in insert mode left' })
@@ -172,7 +174,7 @@ require('lazy').setup({
   {
     'akinsho/toggleterm.nvim',
     version = "*",
-    opts = { open_mapping = [[<C-t>]], },
+    opts = { open_mapping = [[<C-`>]], },
   },
 
   {
@@ -672,7 +674,7 @@ require('lazy').setup({
           --
           -- <c-l> will move you to the right of each of the expansion locations.
           -- <c-h> is similar, except moving you backwards.
-          ['<C-l>'] = cmp.mapping(function()
+          ['<Tab>'] = cmp.mapping(function()
             if luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
             end

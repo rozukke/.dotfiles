@@ -35,6 +35,8 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.auto-optimise-store = true;
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   nixpkgs.config.allowUnfree = true;
 
   networking.hostName = sysconfig.hostname;

@@ -64,12 +64,29 @@
     createDirectories = true;
     music = "${config.home.homeDirectory}/media/music";
     pictures = "${config.home.homeDirectory}/media/pictures";
-    download = "${config.home.homeDirectory}/downloads";
+    download = "${config.home.homeDirectory}/download";
     documents = "${config.home.homeDirectory}/documents";
     templates = null;
     videos = null;
     desktop = null;
     publicShare = null;
+  };
+
+  gtk = {
+    enable = true;
+    cursorTheme.package = pkgs.quintom-cursor-theme;
+    cursorTheme.name = "Quintom_Snow";
+    theme.package = pkgs.adw-gtk3;
+    theme.name = "adw-gtk3";
+    iconTheme.package = pkgs.gruvbox-plus-icons;
+    iconTheme.name = "GruvboxPlus";
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "adwaita";
+    style.name = "adwaita-dark";
+    style.package = pkgs.adwaita-qt;
   };
 
   news.display = "silent";

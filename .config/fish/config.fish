@@ -1,5 +1,4 @@
 set fish_greeting # Disable greeting
-fastfetch
 
 alias cl="clear"
 alias lgit="lazygit"

@@ -16,6 +16,7 @@
     killall
     ripgrep
     lazygit
+    tldr
     # Shell
     fish
     zoxide

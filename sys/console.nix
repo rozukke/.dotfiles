@@ -5,6 +5,7 @@
 
   # Console font config
   console = {
+    earlySetup = true;
     packages = with pkgs; [
       terminus_font
     ];
