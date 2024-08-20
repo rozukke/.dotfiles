@@ -20,10 +20,8 @@
     hyprcursor
     hypridle
     hyprlock
-    hyprcursor
     discord
     keepassxc
     zathura
-    prismlauncher
   ]);
 }
