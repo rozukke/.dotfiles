@@ -1,5 +1,8 @@
 # NixOS Config - rozukke
 
+> [!WARNING]  
+> **THIS IS DEPRECATED** - NixOS was too much of a hassle for the upsides to win me over, and as such this config is no longer in use.
+
 This is my config for a customised install of NixOS on UEFI, tested with a ThinkPad T480s.
 
 ## Structure
